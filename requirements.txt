@@ -1,0 +1,15 @@
+langchain>=0.0.300
+chromadb>=0.4.13
+openai>=0.28.1
+python-dotenv>=1.0.0
+transformers>=4.34.0
+torch>=2.0.1
+sentence-transformers>=2.2.2
+python-magic>=0.4.27
+unstructured>=0.10.15
+tiktoken>=0.5.1
+faiss-cpu>=1.7.4
+pypdf>=3.16.4
+google-genai
+langchain-text-splitters
+langchain-community
