@@ -12,6 +12,7 @@ from types import SimpleNamespace
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
+from langchain_community.embeddings import SentenceTransformerEmbeddings
 
 
 class _STEmbeddingFn:
@@ -33,7 +34,7 @@ class VectorStore:
         self,
         model_name: str = "all-MiniLM-L6-v2",
         persist_directory: Optional[str] = None,
-        collection_name: str = "documents",
+        collection_name: str = "my_collection",
     ):
         """Initialize a Chroma-backed vector store.
 
@@ -46,13 +47,17 @@ class VectorStore:
         if persist_directory is None:
             persist_directory = os.getenv("VECTOR_STORE_PATH", "./data/vector_store")
 
-        self.model = SentenceTransformer(model_name)
+        #self.model = SentenceTransformer(model_name)
+        self._embedding_fn = SentenceTransformerEmbeddings(
+            model_name=model_name
+        )
         self._embedding_fn = _STEmbeddingFn(self.model)
 
         # Use duckdb+parquet for on-disk persistence by default.
-        self._client = chromadb.Client(
-            Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
-        )
+        self._client = chromadb.PersistentClient(path=persist_directory)
+        #self._client = chromadb.Client(
+        #    Settings(chroma_db_impl="duckdb+parquet", persist_directory=persist_directory)
+        #)
 
         # Get or create collection. Pass embedding function so chroma will use
         # it for queries and additions.

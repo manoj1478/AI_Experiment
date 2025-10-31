@@ -10,6 +10,6 @@ unstructured>=0.10.15
 tiktoken>=0.5.1
 faiss-cpu>=1.7.4
 pypdf>=3.16.4
-google-genai
+google-generativeai
 langchain-text-splitters
 langchain-community
